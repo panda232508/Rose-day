@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 🌹</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Georgia',serif;
+}
+
+body{
+  background:#0b0b0b;
+  overflow:hidden;
+}
+
+/* COMMON PAGE */
+.page{
+  position:absolute;
+  width:100%;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:#fff;
+  transition:transform 1s ease;
+}
+
+.hidden{ transform:translateX(100%); }
+
+/* PAGE 1 */
+#page1{
+  background:radial-gradient(circle at top,#3a0000,#000);
+}
+
+.rose{
+  font-size:90px;
+  animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0);}
+}
+
+/* BUTTON */
+button{
+  margin-top:30px;
+  padding:12px 28px;
+  border:none;
+  border-radius:25px;
+  background:#7a1f1f;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
+
+button:hover{ background:#9c2b2b; }
+
+/* PAGE 2 */
+#page2{
+  background:linear-gradient(#000,#1a0000);
+  text-align:center;
+  padding:30px;
+}
+
+/* PAGE 3 */
+#page3{ background:#000; }
+
+.photos{
+  display:flex;
+  gap:15px;
+  margin-top:20px;
+}
+
+.photos img{
+  width:90px;
+  height:120px;
+  object-fit:cover;
+  border-radius:10px;
+  box-shadow:0 0 20px rgba(255,255,255,.2);
+}
+
+/* PAGE 4 */
+#page4{ background:#1a140d; }
+
+.letter{
+  background:#f3e6c8;
+  color:#3b2b1f;
+  width:85%;
+  max-width:360px;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 15px 40px rgba(0,0,0,.6);
+}
+
+.letter h3{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+/* PAGE 5 */
+#page5{
+  background:#000;
+  text-align:center;
+}
+
+/* FALLING ROSES */
+.petal{
+  position:fixed;
+  top:-50px;
+  font-size:20px;
+  animation:fall linear infinite;
+  opacity:.8;
+}
+
+@keyframes fall{
+  0%{transform:translateY(0) rotate(0);}
+  100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* POPUP */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.popup.hidden{ display:none; }
+
+.popup-box{
+  background:#f3e6c8;
+  color:#3b2b1f;
+  width:85%;
+  max-width:340px;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,.6);
+  animation:pop .6s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(.6);opacity:0;}
+  100%{transform:scale(1);opacity:1;}
+}
+
+.popup-rose{
+  font-size:50px;
+  animation:beat 1.5s infinite;
+}
+
+@keyframes beat{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.1);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page" id="page1">
+  <div class="rose">🌹</div>
+  <h2>Rose Day…</h2>
+  <p>Happy Rose Day my love 🤍</p>
+  <p style="margin-top:10px;font-size:14px;opacity:.85;">
+    — From <b>Babuli</b>
+  </p>
+  <button onclick="nextPage(1)">Swipe ➜</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page hidden" id="page2">
+  <h2>Oru Chinna Story</h2>
+  <p style="margin-top:20px;line-height:1.7;">
+    Ellaa naalum same illa…<br>
+    Aana sila moments<br>
+    namma life-la<br>
+    special-aa irukkum 🤍
+  </p>
+  <button onclick="nextPage(2)">Next ➜</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page hidden" id="page3">
+  <h2>Our Moments 📸</h2>
+  <div class="photos">
+    <img src="photos/pic1.jpg">
+    <img src="photos/pic2.jpg">
+    <img src="photos/pic3.jpg">
+  </div>
+  <button onclick="nextPage(3)">Next ➜</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page hidden" id="page4">
+  <div class="letter">
+    <h3>My Letter 📜</h3>
+    <p id="typing"></p>
+  </div>
+  <button onclick="nextPage(4)">End ➜</button>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page hidden" id="page5">
+  <h2 style="opacity:.7;">One Last Thing 🤍</h2>
+</div>
+
+<!-- POPUP SURPRISE -->
+<div id="popup" class="popup hidden">
+  <div class="popup-box">
+    <div class="popup-rose">🌹</div>
+    <h3>For You</h3>
+    <p>
+      Indha website oru gift mattum illa…<br>
+      Idhu ennoda manasu-la irundhu vandhadhu 🤍
+      <br><br>
+      Nee smile pannina podhum…<br>
+      adhu dhan enakku pothum 😌
+    </p>
+    <button onclick="closePopup()">Close 🤍</button>
+  </div>
+</div>
+
+<script>
+function nextPage(n){
+  document.getElementById("page"+n).classList.add("hidden");
+  document.getElementById("page"+(n+1)).classList.remove("hidden");
+
+  if(n===1){
+    fadeInMusic();
+    startPetals();
+  }
+  if(n===3){
+    typeLetter();
+  }
+  if(n===4){
+    setTimeout(()=>{
+      document.getElementById("popup").classList.remove("hidden");
+    },1200);
+  }
+}
+
+/* MUSIC FADE IN */
+function fadeInMusic(){
+  const music=document.getElementById("music");
+  music.volume=0;
+  music.play();
+  let v=0;
+  let fade=setInterval(()=>{
+    if(v<1){
+      v+=0.05;
+      music.volume=v;
+    }else clearInterval(fade);
+  },200);
+}
+
+/* FALLING ROSES */
+function startPetals(){
+  setInterval(()=>{
+    let petal=document.createElement("div");
+    petal.className="petal";
+    petal.innerHTML="🌹";
+    petal.style.left=Math.random()*100+"vw";
+    petal.style.animationDuration=3+Math.random()*4+"s";
+    document.body.appendChild(petal);
+    setTimeout(()=>petal.remove(),7000);
+  },400);
+}
+
+/* TYPING LETTER */
+const text=`unakku mattum
+eludhina words.
+
+Time eduthu read pannu.
+Idhu auto-close illa 🤍
+
+அன்புள்ள என் தோழி / என் மனைவி,
+நான் செய்தது தவறு என்பதைக் முழுமையாக உணர்கிறேன். அந்த தவறுக்காக வெறும் “சாரி” என்று சொல்வது மட்டும் போதாது என்பதும் எனக்குத் தெரியும்.
+இந்த ஒரு முறையாவது என்னை மன்னித்து, இன்னொரு வாய்ப்பு கொடுப்பாயா? நான் என்னை மாற்றிக்கொள்வேன் — உண்மையிலேயே, முழு மனதோடு.
+நீ இல்லாமல் என்னால் வாழ்க்கையை நினைத்துக்கூட பார்க்க முடியவில்லை. இந்த ஒரு வாய்ப்பு தான் நான் உன்னிடம் கேட்கும் வாழ்க்கையின் கடைசி வேண்டுகோள்.
+உனக்குப் பிடித்த நல்ல கணவனாகவும், நல்ல தோழனாகவும் இருப்பேன். உன் சந்தோஷமே என் வாழ்க்கையின் முதல் குறிக்கோளாக இருக்கும்.
+மீண்டும் இந்த தவறு ஒருபோதும் நடக்காது — இது நம் காதல்மீது நான் எடுக்கும் வாக்கு.
+எனக்கு நீ மட்டும் போதும். வேறு யாரும் வேண்டாம்.
+தயவு செய்து இந்த ஒரு முறையாவது என்னை மன்னித்து, இன்னொரு வாய்ப்பு கொடு
+
+With love,
+Babuli 🤍`;
+
+let i=0;
+function typeLetter(){
+  const box=document.getElementById("typing");
+  if(i<text.length){
+    box.innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(typeLetter,40);
+  }
+}
+
+/* CLOSE POPUP */
+function closePopup(){
+  document.getElementById("popup").classList.add("hidden");
+}
+</script>
+
+</body>
+</html>
